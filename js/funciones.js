@@ -17,6 +17,7 @@ const contador = document.getElementById('contador') //para mostrar cuantos art�
 
 //array para guardar los productos del carrito
 let carritoProductos = []
+let numeroProductos = 0
 
 //funcion para mostrar los productos
 function mostrarProductos(){
@@ -53,9 +54,8 @@ if(lineaCarrito){
     productoCarrito.cantidad = 1 //si no existe lo añadimos 
     carritoProductos.push(productoCarrito)
 }
-    console.log(carritoProductos)
     
-
+numeroProductos++
     actualizarCarrito()
 }
 
@@ -86,13 +86,24 @@ function actualizarCarrito(){
     botonesRestar.forEach(btn =>{
         btn.addEventListener("click", restarProducto)
     })
-
-
 // calcular el total y mostrar en pantalla
 // reduce es la funcion que devuelve la suma de todos loa valores de la propiedad precio por la cantidad , con valor inicial 0.
+
 const total = carritoProductos.reduce((suma, item) => suma + item.precio * item.cantidad, 0)
 totalCarrito.textContent = " Total: " + total.toFixed(2) + "€"
+
+//mostrar el numero de productos en el carrito con el if y el else se quita el 0 y se ven a partir de un producto
+if(numeroProductos === 0){
+    contador.textContent =" "
+}else {
+contador.textContent = numeroProductos
 }
+}
+
+//mostrar el numero de productos en el carrito
+
+contador.textContent = numeroProductos
+
 // esta funcion es para sumar el articulo repetido
 function sumarProducto(e){
     const productoId =parseFloat(e.target.getAttribute("data-id"))
@@ -100,6 +111,7 @@ function sumarProducto(e){
     const lineaCarrito = carritoProductos.find(producto => producto.id === productoId)
 
     lineaCarrito.cantidad = lineaCarrito.cantidad + 1
+    numeroProductos++
     actualizarCarrito()
 }
 
@@ -114,10 +126,12 @@ carritoProductos = carritoProductos.filter(producto => producto.id !== productoI
 }else{
     lineaCarrito.cantidad = lineaCarrito.cantidad - 1 
 }
-   
+   numeroProductos--
     actualizarCarrito()
 }
 
 
-
+mostrarCarrito.addEventListener("click", ()=>{
+    carrito.classList.toggle("open")
+    })
 mostrarProductos()
