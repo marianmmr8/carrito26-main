@@ -19,11 +19,19 @@ const totalCarrito = document.getElementById('cart-total') //total del carrito, 
 const contador = document.getElementById('contador') //para mostrar cuantos artículos hay en el carrito
 
 //array para guardar los productos del carrito
-let carritoProductos = []
+
+//si hay producto en el storage lo cargamos si no ,nos da un array vacio
+let carritoProductos = JSON.parse(localStorage.getItem("carritoProductos")) || []
 
 //variable para contar el numero de productos en el carrito a cero
-let numeroProductos = 0
+let numeroProductos = parseFloat(localStorage.getItem("numeroProductos")) || 0
 
+
+function actualizarlocalStorage(){
+      localStorage.setItem("carrito", JSON.stringify(carritoProductos))
+
+    localStorage.setItem("numeroProductos", numeroProductos)
+}
 //funcion para mostrar los productos en pantalla
 function mostrarProductos(){
 
@@ -65,7 +73,12 @@ if(lineaCarrito){
 }
     
 numeroProductos++
-    actualizarCarrito()
+
+//guardas en localStorage el numero de productos que hay en el carrito
+actualizarlocalStorage()
+actualizarCarrito()
+
+
 }
 //funcion para actualizar el carrito en pantalla
 function actualizarCarrito(){
@@ -121,6 +134,8 @@ function sumarProducto(e){
 
     lineaCarrito.cantidad = lineaCarrito.cantidad + 1
     numeroProductos++
+
+    actualizarlocalStorage()
     actualizarCarrito()
 }
 
@@ -137,12 +152,14 @@ carritoProductos = carritoProductos.filter(producto => producto.id !== productoI
     lineaCarrito.cantidad = lineaCarrito.cantidad - 1 
 }
    numeroProductos--
-    actualizarCarrito()
+ actualizarlocalStorage()
+ actualizarCarrito()
 }
 
 
 mostrarCarrito.addEventListener("click", ()=>{
     carrito.classList.toggle("open")
     })
+
     //llamamos a la funcion para mostrar los productos en pantalla
 mostrarProductos()
