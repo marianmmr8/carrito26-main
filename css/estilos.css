@@ -20,7 +20,8 @@ h1{
 }
 .products {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
+    /* flex-wrap sirve para que segun como lo veas en una pantalla se adapte */
     justify-content: space-around;
 }
 .product-card {
@@ -51,7 +52,7 @@ h1{
     background-color: #4CAF50;
     border: none;
     color: white;
-    padding: 10px;
+    padding: 10px 0;
     text-align: center;
     text-decoration: none;
     display: inline-block;
