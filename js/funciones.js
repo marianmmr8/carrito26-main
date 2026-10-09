@@ -1,3 +1,6 @@
+//datos de entrada
+
+//array de productos, cada producto es un objeto con id, nombre, descripcion, imagen y precio
 const productos = [
     {id: 1, nombre: "Cuna", descripcion: "Cuna blanca moderna", imagen: "cuna.jpg", precio: 340.00},
     {id: 2, nombre: "Dormitorio", descripcion: "Dormitorio individual", imagen: "dormitorio.jpg", precio: 640.00},
@@ -17,10 +20,14 @@ const contador = document.getElementById('contador') //para mostrar cuantos art�
 
 //array para guardar los productos del carrito
 let carritoProductos = []
+
+//variable para contar el numero de productos en el carrito a cero
 let numeroProductos = 0
 
-//funcion para mostrar los productos
+//funcion para mostrar los productos en pantalla
 function mostrarProductos(){
+
+    //recorremos el array de productos y generamos el html para cada producto
     productosContainer.innerHTML = productos.map((producto) => 
         `
         <div class="product-card">
@@ -33,11 +40,13 @@ function mostrarProductos(){
         `
     ).join('')
     const btnAddCarrito = document.querySelectorAll('.addProducto')
+
+    //añade eventos para los botones
     btnAddCarrito.forEach(btn => {
         btn.addEventListener('click', addCarrito)
     })
 }
-
+// funcion para añadir producto al carrito
 function addCarrito(e){
     const productoId = parseFloat(e.target.getAttribute('data-id')) 
     const productoComprado = productos.find(producto => producto.id === productoId)
@@ -58,7 +67,7 @@ if(lineaCarrito){
 numeroProductos++
     actualizarCarrito()
 }
-
+//funcion para actualizar el carrito en pantalla
 function actualizarCarrito(){
     itemsCarrito.innerHTML = carritoProductos.map((item) =>
         `
@@ -104,7 +113,7 @@ contador.textContent = numeroProductos
 
 contador.textContent = numeroProductos
 
-// esta funcion es para sumar el articulo repetido
+// esta funcion es para sumar el articulo 
 function sumarProducto(e){
     const productoId =parseFloat(e.target.getAttribute("data-id"))
     //buscar la linea del carrito correspondiente
@@ -115,6 +124,7 @@ function sumarProducto(e){
     actualizarCarrito()
 }
 
+//esta funcion es para restar el articulo
 function restarProducto(e){
     const productoId =parseFloat(e.target.getAttribute("data-id"))
     //buscar la linea del carrito correspondiente
@@ -134,4 +144,5 @@ carritoProductos = carritoProductos.filter(producto => producto.id !== productoI
 mostrarCarrito.addEventListener("click", ()=>{
     carrito.classList.toggle("open")
     })
+    //llamamos a la funcion para mostrar los productos en pantalla
 mostrarProductos()
